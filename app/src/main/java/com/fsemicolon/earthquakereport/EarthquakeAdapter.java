@@ -19,12 +19,12 @@ import java.util.ArrayList;
 public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.EarthquakeViewHolder> {
 
 
-    private ArrayList<String> mPlaces;
+    ArrayList<EarthquakeDetails> mPlaces;
 
 
     //We need to create a constructor in order to get the cities from our Main Activity
 
-    public EarthquakeAdapter(ArrayList<String> places)
+    public EarthquakeAdapter(ArrayList<EarthquakeDetails> places)
     {
         mPlaces = places;
     }
@@ -86,7 +86,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.Ea
 
         public void bind(int position)
         {
-            String city = mPlaces.get(position);
+            String city = mPlaces.get(position).getLocation();
 
             placeTextView.setText(city);
 

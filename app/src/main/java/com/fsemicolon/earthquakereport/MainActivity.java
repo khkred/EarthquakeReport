@@ -19,22 +19,28 @@ public class MainActivity extends AppCompatActivity {
     private EarthquakeAdapter mEarthquakeAdapter;
 
 
-    ArrayList<String> cities;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cities = new ArrayList<String>();
 
-        cities.add("San Fransisco");
-        cities.add("London");
-        cities.add("Tokyo");
-        cities.add("Paris");
-        cities.add("Warsaw");
-        cities.add("Delhi");
-        cities.add("Berlin");
+
+        ArrayList<EarthquakeDetails> earthquakeDetails = new ArrayList<>();
+
+        earthquakeDetails.add(new EarthquakeDetails("San Fransisco"));
+        earthquakeDetails.add(new EarthquakeDetails("London"));
+        earthquakeDetails.add(new EarthquakeDetails("Tokyo"));
+        earthquakeDetails.add(new EarthquakeDetails("Paris"));
+        earthquakeDetails.add(new EarthquakeDetails("Warsaw"));
+        earthquakeDetails.add(new EarthquakeDetails("Delhi"));
+        earthquakeDetails.add(new EarthquakeDetails("Berlin"));
+
+
+
+
 
         //find the id for recyclerView
 
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Instantiate our Adapter
-        mEarthquakeAdapter = new EarthquakeAdapter(cities);
+        mEarthquakeAdapter = new EarthquakeAdapter(earthquakeDetails);
 
         mRecyclerView.setHasFixedSize(true);
 
