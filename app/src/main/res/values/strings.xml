@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Earthquake Report</string>
+    <string name="city_name">Mumbai</string>
 </resources>
