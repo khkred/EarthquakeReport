@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ import java.util.ArrayList;
 public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.EarthquakeViewHolder> {
 
 
-    ArrayList<EarthquakeDetails> mPlaces;
-
+    private ArrayList<Earthquake> mEarthquakesList;
 
     //We need to create a constructor in order to get the cities from our Main Activity
 
-    public EarthquakeAdapter(ArrayList<EarthquakeDetails> places)
+    public EarthquakeAdapter(ArrayList<Earthquake> earthquakesList)
     {
-        mPlaces = places;
+
+        mEarthquakesList = earthquakesList;
     }
 
     //Here are we going to implement the onCreateViewHolder method
@@ -62,9 +61,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.Ea
     @Override
     public int getItemCount() {
 
-        int size =mPlaces.size();
-        return
-                mPlaces.size();
+        return mEarthquakesList.size();
     }
 
     /**
@@ -72,24 +69,35 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.Ea
      */
     class EarthquakeViewHolder extends RecyclerView.ViewHolder
     {
-        TextView placeTextView;
+        TextView locationTextView;
+
+        TextView magnitudeTextView;
+
+        TextView dateTextView;
 
 
         public EarthquakeViewHolder(View itemView)
         {
             super(itemView);
 
-            placeTextView = itemView.findViewById(R.id.location_text_view);
+            locationTextView = itemView.findViewById(R.id.location_text_view);
+
+            magnitudeTextView = itemView.findViewById(R.id.magnitude_text_view);
+
+            dateTextView = itemView.findViewById(R.id.date_text_view);
         }
 
         //Let's define a bind method in order to add the data to our placeTextView
 
         public void bind(int position)
         {
-            String city = mPlaces.get(position).getLocation();
+            Earthquake currentEarthquake = mEarthquakesList.get(position);
 
-            placeTextView.setText(city);
+            magnitudeTextView.setText(String.valueOf(currentEarthquake.getMagnitude()));
 
+            locationTextView.setText(currentEarthquake.getLocation());
+
+            dateTextView.setText(currentEarthquake.getDate());
         }
     }
 
