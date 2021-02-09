@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Earthquake Report</string>
-    <string name="city_name">Mumbai</string>
+    <string name="location_offset_string">10 Km W of</string>
     <string name="_5_6">5.6</string>
     <string name="june_5_2012">June 5 2012</string>
+    <string name="time_string">3 PM</string>
+    <string name="primary_location_string">Mumbai</string>
 </resources>
