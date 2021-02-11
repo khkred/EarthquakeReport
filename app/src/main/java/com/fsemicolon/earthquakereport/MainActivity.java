@@ -1,6 +1,10 @@
 package com.fsemicolon.earthquakereport;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,12 +15,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements EarthquakeAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity implements EarthquakeAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<ArrayList<Earthquake>> {
 
     /**
      * STEP 3: CREATE A LINEAR LAYOUT MANAGER IN ORDER TO WIRE UP THE ENTIRE RECYCLERVIEW
@@ -40,9 +43,7 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        new EarthquakeAsyncTask().execute(USGS_EARTHQUAKE_URL);
-
+        getSupportLoaderManager().initLoader(0,null,this);
         //find the id for recyclerView
 
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -66,12 +67,10 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
 
     }
 
-    public void updateUI(String jsonResponse)
+    public void updateUI(ArrayList<Earthquake> data)
     {
 
-        earthquakesList = QueryUtils.extractEarthquakes(jsonResponse);
-        //Instantiate our Adapter
-        mEarthquakeAdapter = new EarthquakeAdapter(earthquakesList,this);
+        mEarthquakeAdapter = new EarthquakeAdapter(data,this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -93,44 +92,25 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
 
     }
 
-    public class EarthquakeAsyncTask extends AsyncTask<String,Void,String>
-    {
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-            String urlString = urls[0];
-
-            if (urlString!=null && !(TextUtils.isEmpty(urlString)))
-            {
-                try {
-                    URL url = new URL(urlString);
-
-                    String jsonResponse = QueryUtils.makeHttpRequest(url);
-
-                    return jsonResponse;
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String jsonResponse) {
-
-            if (jsonResponse!=null&&!(TextUtils.isEmpty(jsonResponse)))
-            {
-                updateUI(jsonResponse);
-
-
-            }
-        }
+    @NonNull
+    @Override
+    public Loader<ArrayList<Earthquake>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new EarthquakeLoader(MainActivity.this);
     }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<ArrayList<Earthquake>> loader, ArrayList<Earthquake> data) {
+
+        updateUI(data);
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<ArrayList<Earthquake>> loader) {
+
+    }
+
+
 }
 
 
